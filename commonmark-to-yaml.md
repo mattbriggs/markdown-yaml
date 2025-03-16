@@ -147,7 +147,7 @@ def markdown_to_yaml(md_filepath):
     for sec in sections[1:]:
         yaml_structure['contents'].append(convert_components(sec['title'], sec['type'], sec['content']))
 
-    yaml_content = '### YamlMime:article\n' + yaml.dump(yaml_structure, sort_keys=False, allow_unicode=True)
+    yaml_content = '# yaml-language-server: $schema=article.schema.v1v1.json\n' + yaml.dump(yaml_structure, sort_keys=False, allow_unicode=True)
 
     yaml_filepath = os.path.splitext(md_filepath)[0] + '.yml'
     with open(yaml_filepath, 'w') as f:
