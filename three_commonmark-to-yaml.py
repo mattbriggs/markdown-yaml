@@ -121,6 +121,7 @@ def markdown_to_yaml(md_filepath):
 
     yaml_filepath = os.path.splitext(md_filepath)[0] + '.yml'
     with open(yaml_filepath, 'w') as f:
+        f.write('# yaml-language-server: $schema=../article.schema.v1v1.full.json\n')
         f.write(yaml_content)
 
     logging.info(f"Converted Markdown to structured YAML: {yaml_filepath}")
