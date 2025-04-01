@@ -3,16 +3,24 @@ import re
 import yaml
 import logging
 import os
+import json
 
 logging.basicConfig(level=logging.INFO)
 
 # YAML multiline scalar representation
 def str_presenter(dumper, data):
-    if len(data) > 80 or '\n' in data:
+    if '\n' in data or len(data) > 80:
         return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
     return dumper.represent_scalar('tag:yaml.org,2002:str', data)
 
 yaml.add_representer(str, str_presenter)
+
+# Load component and unit mappings
+with open('compMapping.json') as f:
+    COMPONENT_MAP = json.load(f)
+
+with open('unitMapping.json') as f:
+    UNIT_MAP = json.load(f)
 
 # Resolve recursive Markdown includes
 def resolve_includes(content, base_path):
@@ -30,39 +38,37 @@ def resolve_includes(content, base_path):
 
     return include_pattern.sub(replace_include, content)
 
-# Identify components within a markdown section
+# Identify components using schema-based mapping
 def identify_components(section_content):
     components = []
 
-    paragraphs = re.split(r'\n\n+', section_content.strip())
+    for comp_name, comp_pattern in COMPONENT_MAP.items():
+        matches = re.findall(comp_pattern, section_content, re.MULTILINE | re.DOTALL)
+        for match in matches:
+            # Handle tuples returned by regex patterns with multiple groups
+            if isinstance(match, tuple):
+                match_content = ' '.join(m.strip() for m in match if m.strip())
+            else:
+                match_content = match.strip()
 
-    for paragraph in paragraphs:
-        if paragraph.startswith(':::'):
-            component_name = paragraph.split()[0][3:].strip()
-            component_content = '\n'.join(paragraph.split('\n')[1:-1]).strip()
-        elif paragraph.startswith('```'):
-            component_name = 'codeBlock'
-            component_content = '\n'.join(paragraph.split('\n')[1:-1]).strip()
-        elif paragraph.startswith('>'):
-            component_name = 'quote'
-            component_content = paragraph.lstrip('>').strip()
-        else:
-            component_name = 'markdown'
-            component_content = paragraph.strip()
+            components.append({comp_name: match_content})
+            section_content = section_content.replace(match_content, '')
 
-        components.append({component_name: component_content})
+    # Remaining content as generic markdown
+    if section_content.strip():
+        components.append({'markdown': section_content.strip()})
 
     return components
 
-# Modular unit identification logic (extendable)
-def identify_unit_type(title, components):
-    # Example logic, extendable based on requirements
-    if 'procedure' in title.lower():
-        return 'procedure'
-    elif 'concept' in title.lower():
-        return 'concept'
-    else:
-        return 'general'
+# Modular unit identification using external mapping
+def identify_unit_type(components):
+    component_types = {list(c.keys())[0] for c in components}
+
+    for unit_type, required_components in UNIT_MAP.items():
+        if required_components and all(rc in component_types for rc in required_components):
+            return unit_type
+
+    return 'unknown'
 
 # Extract metadata and split markdown into structured units
 def split_markdown_units(content):
@@ -85,11 +91,14 @@ def split_markdown_units(content):
         summary = lines.pop(0).strip() if lines else ''
         remaining_content = '\n'.join(lines).strip()
 
+        components = identify_components(remaining_content)
+        unit_type = identify_unit_type(components)
+
         unit = {
             'title': title,
             'summary': summary,
-            'type': identify_unit_type(title, remaining_content),
-            'components': identify_components(remaining_content)
+            'type': unit_type,
+            'components': components
         }
 
         structured_units.append(unit)
@@ -106,9 +115,9 @@ def markdown_to_yaml(md_filepath):
     content = resolve_includes(content, base_path)
     metadata, structured_units = split_markdown_units(content)
 
-    yaml_output = {'### YamlMime': 'article', 'metadata': metadata, 'units': structured_units}
+    yaml_output = {'metadata': metadata, 'units': structured_units}
 
-    yaml_content = yaml.dump(yaml_output, sort_keys=False, allow_unicode=True, width=80)
+    yaml_content = yaml.dump(yaml_output, sort_keys=False, allow_unicode=True, default_flow_style=False, width=float('inf'))
 
     yaml_filepath = os.path.splitext(md_filepath)[0] + '.yml'
     with open(yaml_filepath, 'w') as f:

@@ -1,0 +1,17 @@
+{
+    "compAlertNote": ":::note\\n(.*?)\\n:::",
+    "compAlertWarning": ":::warning\\n(.*?)\\n:::",
+    "compBlockCode": "```[a-zA-Z0-9]*\\n(.*?)\\n```",
+    "compBlockQuote": "^>\\s?(.*?)$",
+    "compListOrdered": "^(\\d+\\.\\s+.+(?:\\n\\s*\\d+\\..+)*)",
+    "compListUnordered": "^(-|\\*)\\s+.+(?:\\n\\s*(-|\\*)\\s+.+)*",
+    "compHeaderH1": "^#\\s+(.*?)$",
+    "compHeaderH2": "^##\\s+(.*?)$",
+    "compHeaderH3": "^###\\s+(.*?)$",
+    "compParagraph": "^(?!#|>|-|\\d+\\.|:::|```).+?(?=\\n\\n|$)",
+    "compTable": "(\\|.+?\\|\\n)+(\\|[-: ]+\\|\\n)+(\\|.+?\\|\\n)+",
+    "compImage": "!\\[.*?\\]\\((.*?)\\)",
+    "compVideo": ":::video\\n(.*?)\\n:::",
+    "compInclude": "\\[!INCLUDE.*?\\]\\((.*?)\\)"
+  }
+  
