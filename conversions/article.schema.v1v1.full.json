@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/article.schema.v1v1.full.json",
+  "title": "Full Schema.org Article",
+  "description": "JSON Schema that accommodates the full structure of schema.org's Article type.",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "type": "string",
+      "const": "https://schema.org"
+    },
+    "@type": {
+      "type": "string",
+      "const": "Article"
+    },
+    "headline": {
+      "type": "string"
+    },
+    "articleBody": {
+      "type": "string"
+    },
+    "articleSection": {
+      "type": "string"
+    },
+    "backstory": {
+      "type": [
+        "string",
+        "object"
+      ]
+    },
+    "pageEnd": {
+      "type": [
+        "string",
+        "integer"
+      ]
+    },
+    "pageStart": {
+      "type": [
+        "string",
+        "integer"
+      ]
+    },
+    "pagination": {
+      "type": "string"
+    },
+    "speakable": {
+      "type": [
+        "string",
+        "object",
+        "array"
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "@type": {
+            "type": "string",
+            "const": "SpeakableSpecification"
+          },
+          "cssSelector": {
+            "type": "string"
+          },
+          "xpath": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "@type"
+        ]
+      }
+    },
+    "wordCount": {
+      "type": "integer"
+    },
+    "about": {
+      "type": "object"
+    },
+    "abstract": {
+      "type": "string"
+    },
+    "accessMode": {
+      "type": "string"
+    },
+    "accessModeSufficient": {
+      "type": "object"
+    },
+    "accessibilityAPI": {
+      "type": "string"
+    },
+    "accessibilityControl": {
+      "type": "string"
+    },
+    "accessibilityFeature": {
+      "type": "string"
+    },
+    "accessibilityHazard": {
+      "type": "string"
+    },
+    "accessibilitySummary": {
+      "type": "string"
+    },
+    "accountablePerson": {
+      "type": "object"
+    },
+    "author": {
+      "type": [
+        "object",
+        "array"
+      ]
+    },
+    "creator": {
+      "type": [
+        "object",
+        "array"
+      ]
+    },
+    "editor": {
+      "type": "object"
+    },
+    "dateCreated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dateModified": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "datePublished": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "keywords": {
+      "type": [
+        "string",
+        "array"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "license": {
+      "type": [
+        "string",
+        "object"
+      ]
+    },
+    "publisher": {
+      "type": "object"
+    },
+    "inLanguage": {
+      "type": "string"
+    },
+    "isAccessibleForFree": {
+      "type": "boolean"
+    },
+    "isFamilyFriendly": {
+      "type": "boolean"
+    },
+    "mainEntityOfPage": {
+      "type": [
+        "string",
+        "object"
+      ]
+    },
+    "thumbnailUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "identifier": {
+      "type": [
+        "string",
+        "object",
+        "array"
+      ]
+    },
+    "sameAs": {
+      "type": [
+        "string",
+        "array"
+      ],
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "image": {
+      "type": [
+        "string",
+        "object"
+      ]
+    }
+  },
+  "required": [
+    "@type",
+    "headline",
+    "articleBody"
+  ]
+}

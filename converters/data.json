@@ -1,0 +1,10 @@
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The Future of AI in Everyday Life",
+    "description": "A comprehensive look at how AI is shaping our world.",
+    "author": {
+      "@type": "Person",
+      "name": "Dr. Alex Rivera"
+    }
+  }
