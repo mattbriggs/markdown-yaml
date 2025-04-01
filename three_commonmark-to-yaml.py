@@ -7,7 +7,7 @@ import json
 
 logging.basicConfig(level=logging.INFO)
 
-# YAML multiline scalar representation
+# YAML multiline scalar representation for readability
 def str_presenter(dumper, data):
     if '\n' in data or len(data) > 80:
         return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
@@ -31,6 +31,10 @@ def resolve_includes(content, base_path):
         try:
             with open(include_path, 'r') as file:
                 included_content = file.read()
+
+            # Remove YAML metadata header from included file
+            included_content = remove_metadata(included_content)
+
             return resolve_includes(included_content, os.path.dirname(include_path))
         except FileNotFoundError:
             logging.error(f"Include file not found: {include_path}")
@@ -38,27 +42,110 @@ def resolve_includes(content, base_path):
 
     return include_pattern.sub(replace_include, content)
 
-# Identify components using schema-based mapping
-def identify_components(section_content):
+def remove_metadata(content):
+    """Extracts markdown content excluding YAML metadata header."""
+    metadata_pattern = re.compile(r'^---\s*\n.*?\n---\s*\n', re.DOTALL)
+    return metadata_pattern.sub('', content, count=1).strip()
+
+# Parse nested lists explicitly into structured items with recursion
+def parse_nested_list_items(list_content, ordered=False):
+    lines = list_content.splitlines()
+    items = []
+    stack = []
+
+    for line in lines:
+        indent = len(line) - len(line.lstrip())
+        item_text = re.sub(r'^[-*+]|\d+\.', '', line).strip()
+        item = {'item': item_text}
+
+        while stack and stack[-1][0] >= indent:
+            stack.pop()
+
+        if stack:
+            parent_item = stack[-1][1]
+            if 'children' not in parent_item:
+                parent_item['children'] = []
+            parent_item['children'].append(item)
+        else:
+            items.append(item)
+
+        stack.append((indent, item))
+
+    return items
+
+# Recursively parse nested components such as lists and tables
+def parse_nested_components(content):
+    lines = content.splitlines()
     components = []
+    buffer = []
+    current_component_type = None
 
-    for comp_name, comp_pattern in COMPONENT_MAP.items():
-        matches = re.findall(comp_pattern, section_content, re.MULTILINE | re.DOTALL)
-        for match in matches:
-            # Handle tuples returned by regex patterns with multiple groups
-            if isinstance(match, tuple):
-                match_content = ' '.join(m.strip() for m in match if m.strip())
+    # Helper functions
+    def flush_buffer():
+        nonlocal buffer, current_component_type
+        if buffer:
+            text = "\n".join(buffer).strip()
+            if current_component_type == 'listOrdered':
+                components.append({'compListOrdered': {'items': parse_nested_list_items(text, ordered=True)}})
+            elif current_component_type == 'listUnordered':
+                components.append({'compListUnordered': {'items': parse_nested_list_items(text, ordered=False)}})
+            elif current_component_type == 'table':
+                components.append({'compTable': parse_markdown_table(text)})
             else:
-                match_content = match.strip()
+                components.append({'compParagraph': {'content': text}})
+            buffer = []
 
-            components.append({comp_name: match_content})
-            section_content = section_content.replace(match_content, '')
+    # Line-by-line processing
+    for line in lines:
+        stripped_line = line.strip()
+        if re.match(r'^(\d+\.\s)', stripped_line):  # ordered list
+            if current_component_type not in [None, 'listOrdered']:
+                flush_buffer()
+            current_component_type = 'listOrdered'
+            buffer.append(line)
+        elif re.match(r'^([-*+]\s)', stripped_line):  # unordered list
+            if current_component_type not in [None, 'listUnordered']:
+                flush_buffer()
+            current_component_type = 'listUnordered'
+            buffer.append(line)
+        elif re.match(r'^\|.*\|$', stripped_line):  # tables
+            if current_component_type not in [None, 'table']:
+                flush_buffer()
+            current_component_type = 'table'
+            buffer.append(line)
+        elif stripped_line == '':
+            flush_buffer()
+            current_component_type = None
+        else:
+            if current_component_type not in [None, 'paragraph']:
+                flush_buffer()
+            current_component_type = 'paragraph'
+            buffer.append(line)
 
-    # Remaining content as generic markdown
-    if section_content.strip():
-        components.append({'markdown': section_content.strip()})
-
+    flush_buffer()
     return components
+
+def parse_markdown_table(table_markdown):
+    lines = table_markdown.strip().split('\n')
+
+    if len(lines) < 2:
+        return {'headers': [], 'rows': []}
+
+    headers = [cell.strip() for cell in lines[0].strip('|').split('|')]
+
+    # Validate separator
+    separator = lines[1]
+    if not re.match(r'^\s*\|[-:\s|]+\|\s*$', separator):
+        return {'headers': headers, 'rows': []}
+
+    rows = []
+    for line in lines[2:]:
+        if line.strip().startswith('|'):
+            cells = [cell.strip() for cell in line.strip('|').split('|')]
+            if len(cells) == len(headers):
+                rows.append({headers[i]: cells[i] for i in range(len(headers))})
+
+    return {'headers': headers, 'rows': rows}
 
 # Modular unit identification using external mapping
 def identify_unit_type(components):
@@ -91,7 +178,7 @@ def split_markdown_units(content):
         summary = lines.pop(0).strip() if lines else ''
         remaining_content = '\n'.join(lines).strip()
 
-        components = identify_components(remaining_content)
+        components = parse_nested_components(remaining_content)
         unit_type = identify_unit_type(components)
 
         unit = {

@@ -1,8 +1,7 @@
 {
-    "procedureOrderedList": ["compListOrdered"],
-    "procedureCodeblock": ["compBlockCode"],
-    "concept": ["compParagraph", "compBlockQuote"],
-    "alertSection": ["compAlertNote", "compAlertWarning", "compAlertTip"],
-    "mediaSection": ["compImage", "compVideo"],
-    "unknown": []
-  }
+  "concept": ["compParagraph", "compTable"],
+  "procedure": ["compListOrdered", "compListUnordered"],
+  "reference": ["compTable"],
+  "overview": ["compParagraph"],
+  "unknown": []
+}

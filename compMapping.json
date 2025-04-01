@@ -1,17 +1,13 @@
 {
-    "compAlertNote": ":::note\\n(.*?)\\n:::",
-    "compAlertWarning": ":::warning\\n(.*?)\\n:::",
-    "compBlockCode": "```[a-zA-Z0-9]*\\n(.*?)\\n```",
-    "compBlockQuote": "^>\\s?(.*?)$",
-    "compListOrdered": "^(\\d+\\.\\s+.+(?:\\n\\s*\\d+\\..+)*)",
-    "compListUnordered": "^(-|\\*)\\s+.+(?:\\n\\s*(-|\\*)\\s+.+)*",
-    "compHeaderH1": "^#\\s+(.*?)$",
-    "compHeaderH2": "^##\\s+(.*?)$",
-    "compHeaderH3": "^###\\s+(.*?)$",
-    "compParagraph": "^(?!#|>|-|\\d+\\.|:::|```).+?(?=\\n\\n|$)",
-    "compTable": "(\\|.+?\\|\\n)+(\\|[-: ]+\\|\\n)+(\\|.+?\\|\\n)+",
-    "compImage": "!\\[.*?\\]\\((.*?)\\)",
-    "compVideo": ":::video\\n(.*?)\\n:::",
-    "compInclude": "\\[!INCLUDE.*?\\]\\((.*?)\\)"
-  }
-  
+  "compAlertNote": ":::note\\n([\\s\\S]+?)\\n:::",
+  "compAlertWarning": ":::warning\\n([\\s\\S]+?)\\n:::",
+  "compBlockCode": "```[a-zA-Z0-9]*\\n([\\s\\S]+?)\\n```",
+  "compBlockQuote": "(?:^>.*(?:\\n|$))+",
+ "compListOrdered": "(^\\s*\\d+\\.\\s+.+(?:\\n\\s+.+)*)",
+"compListUnordered": "(^\\s*[-*+]\\s+.+(?:\\n\\s+.+)*)",
+"compParagraph": "(?:^(?!#|>|-|\\d+\\.|:::|```|\\||!\\[).+(?:\\n(?!#|>|-|\\d+\\.|:::|```|\\||!\\[).+)*)",
+  "compTable": "(^\\|.*\\|\\s*\\n\\|[-:\\s|]+\\|\\n(?:\\|.*\\|\\n?)+)",
+  "compImage": "!\\[[\\s\\S]*?\\]\\((.*?)\\)",
+  "compVideo": ":::video\\n([\\s\\S]+?)\\n:::",
+  "compInclude": "\\[!INCLUDE.*?\\]\\((.*?)\\)"
+}
