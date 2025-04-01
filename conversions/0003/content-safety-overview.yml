@@ -1,4 +1,4 @@
-'### YamlMime': article
+# yaml-language-server: $schema=../article.schema.v1v1.full.json
 metadata:
   title: Content Safety in Azure AI Foundry portal overview
   titleSuffix: Azure AI Foundry
