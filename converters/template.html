@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ data.headline }}</title>
+    <title>{{ headline }}</title>
+    <meta name="description" content="{{ description }}">
 </head>
 <body>
-    <h1>{{ data.headline }}</h1>
-    <p>{{ data.description }}</p>
-    <p><strong>Author:</strong> {{ data.author.name }}</p>
+    <article>
+        <header>
+            <h1>{{ headline }}</h1>
+            <p>By {{ author }} on {{ datePublished[:10] }}</p>
+            <p>{{ description }}</p>
+        </header>
+        {% for part in article_parts %}
+            <section>
+                <h2>{{ part.name }}</h2>
+                {{ part.text | safe }}
+            </section>
+        {% endfor %}
+    </article>
 </body>
 </html>
