@@ -1,4 +1,4 @@
-## How to add a new component
+# How to add a new component
 
 Adding new components to your system involves a clear, systematic process. Below is a detailed, step-by-step guide:
 
@@ -212,7 +212,7 @@ def test_valid_code_block_component(self):
 ## ✅ **Summary of Changes:**
 
 | Step | Task | File to Update |
-|||-|
+|---|---|---|
 | 1 | Schema definition | `compMapping.json` |
 | 2 | Markdown parsing | `markdown_parser.py` |
 | 3 | Component model (if special) | `component.py` |
