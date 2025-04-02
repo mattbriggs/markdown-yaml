@@ -6,7 +6,14 @@ from exporter.yaml_exporter import YAMLExporter
 from utils.validator import Validator
 import os
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler("logs/md_to_yaml.log"),
+        logging.StreamHandler()
+    ]
+)
 
 
 def main():
