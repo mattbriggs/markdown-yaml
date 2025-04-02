@@ -1,0 +1,7 @@
+{
+    "concept": ["compParagraph", "compTable"],
+    "procedure": ["compListOrdered", "compListUnordered"],
+    "reference": ["compTable"],
+    "overview": ["compParagraph"],
+    "unknown": []
+  }
