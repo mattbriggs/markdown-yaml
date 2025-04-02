@@ -32,14 +32,27 @@ class MarkdownParser:
         def replace_include(match):
             include_path = os.path.join(self.base_path, match.group(1))
             try:
-                with open(include_path, 'r') as file:
+                with open(include_path, 'r', encoding='utf-8') as file:
                     included_content = file.read()
-                return self.resolve_includes(included_content)
+                    
+                # Remove YAML metadata from included content
+                included_body = self.extract_markdown_body(included_content)
+
+                # Recursively resolve nested includes
+                return self.resolve_includes(included_body)
             except FileNotFoundError:
-                logging.error(f"Include file not found: {include_path}")
+                logger.error(f"Include file not found: {include_path}")
                 return ''
 
         return include_pattern.sub(replace_include, content)
+
+    def extract_markdown_body(self, content: str) -> str:
+        """
+        Removes YAML front matter metadata and returns only the markdown body.
+        """
+        metadata_pattern = re.compile(r'^---\s*\n.*?\n---\s*\n', re.DOTALL)
+        markdown_body = metadata_pattern.sub('', content).strip()
+        return markdown_body
 
     def extract_metadata(self, content: str) -> (Dict[str, Any], str):
         metadata = {}

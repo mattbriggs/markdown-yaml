@@ -58,17 +58,6 @@ units:
           Custom categories: Allows users to define specific categories for moderating and filtering content, tailoring safety protocols to unique needs.
       - item: |-
           Safety system message: Provides a method for setting up a "System Message" to instruct the AI on desired behavior and limitations, reinforcing safety boundaries and helping prevent unwanted outputs.
-  - compParagraph:
-      content: |-
-        ---
-        title: include file
-        description: include file
-        ms.author: pafarley
-        ms.service: azure-ai-foundry
-        ms.topic: include
-        ms.date: 01/28/2025
-        ms.custom: include
-        ---
 - title: Understand harm categories
   summary: ''
   type: referenceUnit
