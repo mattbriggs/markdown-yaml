@@ -1,0 +1,32 @@
+{
+    "conceptUnit": {
+      "description": "An explanatory or conceptual unit primarily consisting of paragraphs and optionally images or quotes.",
+      "required_components": ["compParagraph"],
+      "optional_components": ["compImage", "compQuote"]
+    },
+    "taskUnit": {
+      "description": "A step-by-step procedural unit consisting of ordered lists and optionally paragraphs or code blocks.",
+      "required_components": ["compListOrdered"],
+      "optional_components": ["compParagraph", "compCodeBlock"]
+    },
+    "referenceUnit": {
+      "description": "A structured reference, typically represented by tables or code blocks.",
+      "required_components": ["compTable"],
+      "optional_components": ["compCodeBlock"]
+    },
+    "codeExampleUnit": {
+      "description": "A unit primarily providing code examples, possibly accompanied by explanatory paragraphs.",
+      "required_components": ["compCodeBlock"],
+      "optional_components": ["compParagraph"]
+    },
+    "summaryUnit": {
+      "description": "A brief summarizing unit that includes paragraphs or quotes without complex structures.",
+      "required_components": ["compParagraph"],
+      "optional_components": ["compQuote"]
+    },
+    "imageUnit": {
+      "description": "A visual unit centered around images, potentially supported by brief captions or paragraphs.",
+      "required_components": ["compImage"],
+      "optional_components": ["compParagraph"]
+    }
+  }

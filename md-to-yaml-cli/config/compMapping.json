@@ -1,0 +1,129 @@
+{
+    "compParagraph": {
+      "description": "A simple paragraph of text.",
+      "required_fields": ["content"],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "content": { "type": "string" }
+        },
+        "required": ["content"]
+      }
+    },
+    "compListOrdered": {
+      "description": "An ordered list, possibly nested.",
+      "required_fields": ["items"],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/listItem"
+            }
+          }
+        },
+        "required": ["items"],
+        "definitions": {
+          "listItem": {
+            "type": "object",
+            "properties": {
+              "item": { "type": "string" },
+              "children": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/listItem" }
+              }
+            },
+            "required": ["item"]
+          }
+        }
+      }
+    },
+    "compListUnordered": {
+      "description": "An unordered list, possibly nested.",
+      "required_fields": ["items"],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/listItem"
+            }
+          }
+        },
+        "required": ["items"],
+        "definitions": {
+          "listItem": {
+            "type": "object",
+            "properties": {
+              "item": { "type": "string" },
+              "children": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/listItem" }
+              }
+            },
+            "required": ["item"]
+          }
+        }
+      }
+    },
+    "compTable": {
+      "description": "A Markdown table with headers and rows.",
+      "required_fields": ["headers", "rows"],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "headers": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          }
+        },
+        "required": ["headers", "rows"]
+      }
+    },
+    "compCodeBlock": {
+      "description": "A block of code with language metadata.",
+      "required_fields": ["language", "code"],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "language": { "type": "string" },
+          "code": { "type": "string" }
+        },
+        "required": ["language", "code"]
+      }
+    },
+    "compQuote": {
+      "description": "A blockquote from Markdown.",
+      "required_fields": ["quote", "author"],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "quote": { "type": "string" },
+          "author": { "type": ["string", "null"] }
+        },
+        "required": ["quote"]
+      }
+    },
+    "compImage": {
+      "description": "An image element with alt text and URL.",
+      "required_fields": ["alt", "url"],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "alt": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "caption": { "type": ["string", "null"] }
+        },
+        "required": ["alt", "url"]
+      }
+    }
+  }

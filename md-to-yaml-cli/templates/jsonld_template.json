@@ -1,0 +1,42 @@
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Your Article Title",
+    "author": {
+      "@type": "Person",
+      "name": "Author Name",
+      "url": "https://authorwebsite.com"
+    },
+    "datePublished": "2025-04-02T10:00:00Z",
+    "dateModified": "2025-04-02T12:00:00Z",
+    "description": "A brief, informative summary of the article.",
+    "keywords": ["keyword1", "keyword2"],
+    "image": "https://example.com/path-to-image.jpg",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Publisher Name",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://publisherwebsite.com/logo.png"
+      }
+    },
+    "articleBody": "This is where the full, concatenated article body or summarized content would appear as structured text or HTML.",
+    "articleSection": [
+      {
+        "title": "Introduction",
+        "summary": "Briefly introduce the topic or context.",
+        "content": "This is a paragraph or HTML snippet introducing the topic."
+      },
+      {
+        "title": "Step-by-Step Guide",
+        "summary": "Overview of what this section accomplishes.",
+        "content": "Step-by-step procedural content or HTML snippet goes here."
+      },
+      {
+        "title": "Additional Information",
+        "summary": "Supplemental details or references.",
+        "content": "Additional information, tables, code examples, or other supporting content as HTML or text."
+      }
+    ]
+  }
+  

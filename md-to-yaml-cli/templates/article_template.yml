@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=../schemas/article.schema.json
+
+metadata:
+  title: "Your Article Title"
+  author:
+    name: "Author Name"
+    url: "https://authorwebsite.com"
+  datePublished: "2025-04-02T10:00:00Z"
+  dateModified: "2025-04-02T12:00:00Z"
+  description: "A brief, informative summary of the article."
+  keywords:
+    - keyword1
+    - keyword2
+  image: "https://example.com/path-to-image.jpg"
+  publisher:
+    name: "Publisher Name"
+    logo:
+      url: "https://publisherwebsite.com/logo.png"
+
+units:
+  - title: "Introduction"
+    summary: "Briefly introduce the topic or context of the unit."
+    type: "conceptUnit"
+    components:
+      - compParagraph:
+          content: |
+            This is a paragraph that introduces or explains the context of the content.
+
+  - title: "Step-by-Step Guide"
+    summary: "Overview of what this section accomplishes."
+    type: "taskUnit"
+    components:
+      - compListOrdered:
+          items:
+            - item: "Step one detailed description."
+            - item: "Step two detailed description."
+              children:
+                - item: "Optional sub-step or clarification."
+
+  - title: "Additional Information"
+    summary: "Supplemental details or references."
+    type: "referenceUnit"
+    components:
+      - compTable:
+          headers:
+            - "Column 1"
+            - "Column 2"
+          rows:
+            - Column 1: "Data row 1, column 1"
+              Column 2: "Data row 1, column 2"
+            - Column 1: "Data row 2, column 1"
+              Column 2: "Data row 2, column 2"
+
+      - compCodeBlock:
+          language: "python"
+          code: |
+            def example_function():
+                print("Hello, world!")

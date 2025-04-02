@@ -1,0 +1,82 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Metadata Schema for Structured Articles",
+    "description": "Defines the metadata structure compliant with Schema.org's Article schema.",
+    "type": "object",
+    "required": [
+      "title",
+      "author",
+      "datePublished",
+      "description"
+    ],
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "The main title of the article."
+      },
+      "author": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The author's full name."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "A URL to the author's profile or homepage."
+          }
+        }
+      },
+      "datePublished": {
+        "type": "string",
+        "format": "date-time",
+        "description": "ISO 8601 date and time when the article was first published."
+      },
+      "dateModified": {
+        "type": "string",
+        "format": "date-time",
+        "description": "ISO 8601 date and time when the article was last updated."
+      },
+      "description": {
+        "type": "string",
+        "description": "A brief summary describing the article content."
+      },
+      "keywords": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Keywords relevant to the article, useful for SEO and indexing."
+      },
+      "image": {
+        "type": "string",
+        "format": "uri",
+        "description": "URL to an image representing or associated with the article."
+      },
+      "publisher": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Publisher's organization or brand name."
+          },
+          "logo": {
+            "type": "object",
+            "required": ["url"],
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to the publisher's logo image."
+              }
+            }
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  }
+  
