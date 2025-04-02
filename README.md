@@ -1,5 +1,8 @@
 # **Markdown-to-YAML Structured Converter**
 
+You can find the current coversion CLI at:
+[Markdown-to-YAML CLI Converter](md-to-yaml-cli/README.md)
+
 ## **Updated Project Overview**
 
 This project converts Markdown documents into structured YAML files that model content as semantically meaningful components and units. The core design decomposes Markdown into **subcomponents**, assembles those into **units**, and aggregates units into an **article** structure suitable for downstream rendering, indexing, and validation (e.g., HTML, JSON-LD, or AI-ready semantic chunks).
