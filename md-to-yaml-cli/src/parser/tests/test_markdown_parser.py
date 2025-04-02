@@ -1,6 +1,6 @@
 import unittest
 import os
-from parser.markdown_parser import MarkdownParser
+from src.parser.markdown_parser import MarkdownParser
 
 class TestMarkdownParser(unittest.TestCase):
     def setUp(self):

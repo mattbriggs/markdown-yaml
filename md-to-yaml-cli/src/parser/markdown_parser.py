@@ -3,8 +3,8 @@ import yaml
 import os
 import logging
 from typing import Dict, Any, List
-from models.component import Component
-from models.unit import Unit
+from src.models.component import Component
+from src.models.unit import Unit
 
 logging.basicConfig(level=logging.INFO)
 

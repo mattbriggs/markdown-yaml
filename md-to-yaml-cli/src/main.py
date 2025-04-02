@@ -1,9 +1,9 @@
 import argparse
 import logging
-from parser.markdown_parser import MarkdownParser
-from models.article import Article
-from exporter.yaml_exporter import YAMLExporter
-from utils.validator import Validator
+from src.parser.markdown_parser import MarkdownParser
+from src.models.article import Article
+from src.exporter.yaml_exporter import YAMLExporter
+from src.utils.validator import Validator
 import os
 
 logging.basicConfig(

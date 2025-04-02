@@ -1,6 +1,6 @@
 import unittest
-from utils.validator import Validator
-from models.article import Article
+from src.utils.validator import Validator
+from src.models.article import Article
 
 class TestValidator(unittest.TestCase):
     def setUp(self):

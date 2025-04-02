@@ -1,7 +1,7 @@
 import argparse
-from parser.markdown_parser import MarkdownParser
-from exporter.yaml_exporter import YAMLExporter
-from utils.validator import Validator
+from src.parser.markdown_parser import MarkdownParser
+from src.exporter.yaml_exporter import YAMLExporter
+from src.utils.validator import Validator
 
 def run_cli():
     parser = argparse.ArgumentParser(description='Markdown-to-YAML CLI')

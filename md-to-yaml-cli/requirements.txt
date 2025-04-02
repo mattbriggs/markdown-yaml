@@ -2,6 +2,7 @@
 PyYAML==6.0.1
 jsonschema==4.22.0
 argparse==1.4.0
+referencing
 
 # Optional but recommended for advanced Markdown parsing
 markdown-it-py==3.0.0

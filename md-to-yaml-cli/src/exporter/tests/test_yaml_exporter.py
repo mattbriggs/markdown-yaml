@@ -1,8 +1,8 @@
 import unittest
 import os
 import yaml
-from models.article import Article
-from exporter.yaml_exporter import YAMLExporter
+from src.models.article import Article
+from src.exporter.yaml_exporter import YAMLExporter
 
 class TestYAMLExporter(unittest.TestCase):
     def setUp(self):
