@@ -8,6 +8,8 @@ This project provides a robust workflow to convert Markdown documents into struc
 
 The prototype was developed using AI-driven workflows to rapidly iterate and validate features.
 
+![Sketch of the project](docs/images/hack-a-thon.png)
+
 ## 🚀 Project Goals
 
 - **Markdown** ➜ **Structured YAML** ➜ **JSON-LD & HTML**
