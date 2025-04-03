@@ -1,14 +1,10 @@
-# How to add a new component
+# How to add a new unit
 
 Here's a clear, structured approach to adding a **new unit type** to your system, aligned with your current architecture:
-
-
 
 ## ✅ **Step-by-Step Guide to Adding New Units**
 
 A "unit" in your system is a meaningful grouping of components (paragraphs, lists, tables, etc.). Each unit has a type (`conceptUnit`, `taskUnit`, etc.) defined by the components it must contain.
-
-
 
 ### 📌 **1. Update `unitMapping.json`**
 
@@ -34,8 +30,6 @@ Add your new unit definition by specifying:
   }
 }
 ```
-
-
 
 ### 📌 **2. Update Article Schema (Optional but Recommended)**
 
@@ -64,8 +58,6 @@ Your main article schema (`article.schema.json`) might list permissible unit typ
 }
 ```
 
-
-
 ### 📌 **3. Adjust Your Markdown Parser Logic**
 
 **Location:**
@@ -89,8 +81,6 @@ def identify_unit_type(self, components: List[Component]) -> str:
 
 No additional code needed if this generalized logic is already implemented.
 
-
-
 ### 📌 **4. Verify the Unit Model**
 
 Your current unit model (`models/unit.py`) should already support new unit types as it’s generic:
@@ -113,8 +103,6 @@ class Unit:
 ```
 
 No additional changes needed.
-
-
 
 ### 📌 **5. Update Tests (Recommended)**
 
@@ -157,8 +145,6 @@ Paragraph content here.
 
 Update your parser test accordingly to verify correct parsing.
 
-
-
 ### 📌 **6. Run Tests**
 
 Verify correctness and integration by running your tests:
@@ -167,15 +153,11 @@ Verify correctness and integration by running your tests:
 pytest
 ```
 
-
-
 ## 🚀 **Workflow Summary:**
 
 - Define your new unit clearly in `unitMapping.json`.
 - Adjust schemas and parser logic if needed.
 - Explicitly add unit tests to ensure new unit works correctly.
-
-
 
 ## ✅ **Maintainability Recommendations:**
 

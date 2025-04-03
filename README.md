@@ -91,6 +91,15 @@ Run all unit tests easily:
 pytest
 ```
 
+## Documentation
+
+You can find instructions about extending the md-to-yaml-cli:
+
+- [Integration with VS Code](docs/create-a-vs-code-extension.md)
+- [How to add a new component](docs/how-to-add-a-new-component.md)
+- [How to add a new unit](docs/how-to-add-a-new-unit.md)
+- [How to run unit tests](docs/how-to-run-unit-tests.md)
+
 ## 📅 Hackathon Background
 
 **Date:** April 1–3, 2025  
