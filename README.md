@@ -1,126 +1,105 @@
-# **Markdown-to-YAML Structured Converter**
+# Markdown to YAML to JSON-LD Hack
 
-You can find the current coversion CLI at:
-[Markdown-to-YAML CLI Converter](md-to-yaml-cli/README.md)
+**A working prototype created as part of an AI-driven Product Management Hackathon (April 1–3, 2025).**
 
-## **Updated Project Overview**
+## 📝 Overview
 
-This project converts Markdown documents into structured YAML files that model content as semantically meaningful components and units. The core design decomposes Markdown into **subcomponents**, assembles those into **units**, and aggregates units into an **article** structure suitable for downstream rendering, indexing, and validation (e.g., HTML, JSON-LD, or AI-ready semantic chunks).
+This project provides a robust workflow to convert Markdown documents into structured JSON-LD data, using YAML as an intermediate, author-friendly format. This approach facilitates structured content creation, validation, and transformation into semantic JSON-LD and HTML outputs.
 
-The final output supports use cases such as documentation systems, static site generators, and AI retrieval systems.
+The prototype was developed using AI-driven workflows to rapidly iterate and validate features.
 
+## 🚀 Project Goals
 
+- **Markdown** ➜ **Structured YAML** ➜ **JSON-LD & HTML**
+- Provide author-friendly YAML to simplify structured content authoring.
+- Validate content structures rigorously using JSON Schema.
+- Generate semantically rich JSON-LD compliant with Schema.org's Article schema.
+- Automate HTML page generation from JSON-LD.
 
-## **Processing Pipeline (Updated Logic)**
+## 📂 Project Structure
 
-```
-Markdown → Subcomponents → Components → Units → Article (YAML)
-```
-
-### 1. **Markdown Input**
-- May include front matter (`YAML` metadata block).
-- May reference external content via `[!INCLUDE](...)`.
-
-### 2. **Subcomponent Extraction**
-- The Markdown is parsed line by line into **subcomponents** using regex patterns.
-  - Examples: list items, table rows, paragraph lines.
-- Subcomponents are raw, minimally interpreted chunks.
-
-### 3. **Component Assembly**
-- Subcomponents are grouped into logical **components**.
-  - E.g., a set of list items → a `compListUnordered`.
-  - A table’s rows → a `compTable`.
-- Each component includes:
-  - Type (e.g., `compParagraph`, `compTable`, `compListOrdered`)
-  - Content (nested structure, such as children in a list)
-
-### 4. **Unit Segmentation**
-- Components are grouped into **units**, often corresponding to document **sections**.
-- Units are delineated by heading levels (e.g., `#`, `##`, `###`).
-- Each unit includes:
-  - Title (from heading)
-  - Summary (first line after heading)
-  - Type (inferred from present components using a `unitMapping.json`)
-  - Components (parsed and structured)
-
-### 5. **Article Composition**
-- Units are wrapped into a complete **article** object.
-- The article includes:
-  - Metadata (from front matter or other heuristics)
-  - Units (array of structured, typed content)
-- Output can be rendered or exported as:
-  - YAML (default)
-  - JSON-LD (for semantic web)
-  - HTML (for display)
-
-
-
-## **Heading Structure and Section Nesting**
-
-Your notes indicate a desire to eventually support hierarchical section nesting based on heading levels. For now, flat units are created by splitting on `#` and `##`, but future improvements may include:
-
-```markdown
-# H1 → top-level section
-## H2 → subsection
-### H3 → sub-subsection
+```text
+.
+├── conversions
+├── converters
+│   ├── json-ld-to-html.py
+│   ├── yaml_to_jsonld.py
+│   └── template.html
+├── definitions
+├── docs
+│   └── design-docs
+├── md-to-yaml-cli
+│   ├── config
+│   ├── logs
+│   ├── schemas
+│   ├── src
+│   ├── templates
+│   ├── tests
+│   └── code-readme.md
+├── README.md
+└── requirements.txt
 ```
 
-For example:
+## 🛠 How It Works
 
+### Step 1: Markdown to YAML
+- CLI (`md-to-yaml-cli`) parses Markdown files into structured YAML.
+- YAML is validated against JSON Schema for content correctness.
+
+### Step 2: YAML to JSON-LD
+- YAML content is converted into JSON-LD format (`converters/yaml_to_jsonld.py`).
+- JSON-LD follows Schema.org Article structure, enabling semantic clarity.
+
+### Step 3: JSON-LD to HTML
+- JSON-LD data is transformed into HTML (`converters/json-ld-to-html.py`) using templates (`template.html`).
+
+## ⚙️ Setup and Usage
+
+### Install dependencies
+
+```bash
+pip install -r requirements.txt
 ```
-H1        → Section
-  H2      → Subsection
-    H3    → Nested subsection
-  H2      → Another Subsection
-    H3    → Another nested subsection
+
+### Run Conversion
+
+**Markdown to YAML:**
+
+```bash
+python md-to-yaml-cli/src/main.py --input example.md
 ```
 
-This allows for more accurate content structuring and rendering fidelity.
+**YAML to JSON-LD:**
 
-
-
-## **Design Considerations**
-
-### ✅ Current Strengths
-- Clear and deterministic transformation pipeline.
-- Human-readable YAML output with long text formatting.
-- Modular component typing with external mappings.
-- Recursive content inclusion via `[!INCLUDE]`.
-
-### ⚠️ Known Limitations / Areas for Improvement
-- Flat unit structure: nested sections are not yet modeled.
-- Schema validation is not enforced (though schema headers are present).
-- The `compMapping.json` file is unused (could support stricter validation).
-- No robust error handling or CLI.
-- Assumes YAML front matter is only at the top level (not nested).
-
-
-
-## **Potential Improvements**
-| Area | Suggested Enhancement |
-|||
-| **Validation** | Integrate JSON Schema checks on YAML output |
-| **Nesting** | Support recursive H1–H3 nesting to match document hierarchy |
-| **Parsing** | Switch from regex to Markdown AST (e.g., `markdown-it-py`) |
-| **Schema Use** | Utilize `compMapping.json` to validate components and enrich types |
-| **Modularity** | Break parser into testable modules |
-| **CLI** | Use `argparse` to support input/output customization |
-| **Output Formats** | Add `--jsonld`, `--html`, or `--chunks` options |
-
-
-
-## **Visual Model Summary (from your diagram)**
-
+```bash
+python converters/yaml_to_jsonld.py example.yml output.jsonld
 ```
-[Markdown] 
-   ↓
-[Subcomponent extraction via regex] 
-   ↓
-[Component assembly from subcomponents] 
-   ↓
-[Units built from components, using H1/H2/H3 splits]
-   ↓
-[Article: includes metadata + units]
-   ↓
-[YAML → JSON-LD, HTML, AI chunks]
+
+**JSON-LD to HTML:**
+
+```bash
+python converters/json-ld-to-html.py output.jsonld final.html
 ```
+
+## 🧪 Running Tests
+
+Run all unit tests easily:
+
+```bash
+pytest
+```
+
+## 📅 Hackathon Background
+
+**Date:** April 1–3, 2025  
+**Purpose:** To leverage AI-driven workflows to rapidly prototype a structured content workflow from Markdown through YAML into JSON-LD, resulting in a clear, semantic, and easily maintainable content pipeline.
+
+## 📜 License (MIT)
+
+MIT License © 2025  
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
